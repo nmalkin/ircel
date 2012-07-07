@@ -37,26 +37,6 @@ app.get('/', function(req, res){
   res.render('index', { title: 'Express' });
 });
 
-app.post('/channel/', function (req, res, next) {
-  client.join('#' + req.body.channel);
-});
-
-app.get('/channel/', function (req, res, next) {
-  res.end(JSON.stringify(client.chans));
-});
-
-app.delete('/channel/:channel', function (req, res, next) {
-  client.part('#' + req.params.channel);
-});
-
-app.post('/channel/:channel/message/', function (req, res, next) {
-  client.say('#' + req.params.channel, req.body.message);
-});
-
-client.addListener('message', function (from, to, message) {
-
-});
-
 client.addListener('message', function (from, to, message) {
 });
 
