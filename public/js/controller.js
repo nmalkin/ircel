@@ -1,3 +1,4 @@
+/*global io: false, Context: false, contexts: false, listen: false */
 var socket = io.connect('http://localhost');
 
 /*** CLIENT -> SERVER ***/
@@ -15,7 +16,7 @@ function parseInput(input, context) {
     var parts = input.split(' ');
 
     var command, directive, newContext;
-    if(message[0] === '/') { // If it's a command
+    if(input[0] === '/') { // If it's a command
         switch(parts[0]) {
             case '/connect':
                 command = 'irc.connect';
@@ -160,7 +161,7 @@ listen(parseInput);
 
 
 /*** SERVER -> CLIENT ***/
-socket.on('message', function(data) {
+socket.on('irc.message', function(data) {
     var matchingContexts = contexts.filter(function(context) {
         return context.connectionID === data.id;
     });
@@ -192,5 +193,5 @@ socket.on('message', function(data) {
         targetContext.partner = data.from;
     }
 
-    dataContext.send({type: data.type, content: data.message});
+    targetContext.send({type: data.type, content: data.message});
 });
