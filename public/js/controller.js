@@ -14,7 +14,7 @@ function sendError(context, message) {
 function parseInput(input, context) {
     var parts = input.split(' ');
 
-    var command, directive;
+    var command, directive, newContext;
     if(message[0] === '/') { // If it's a command
         switch(parts[0]) {
             case '/connect':
@@ -25,7 +25,7 @@ function parseInput(input, context) {
                     return;
                 }
 
-                if(context.type == '') { // Use this context for the connection
+                if(context.type === '') { // Use this context for the connection
                     context.connectionID = nextID();
                 } else { // Create a new context for this connection
                     context = new Context();
@@ -60,10 +60,10 @@ function parseInput(input, context) {
                     channel: parts[1]
                 };
 
-                if(context.type == '') { // Use this context for the channel
+                if(context.type === '') { // Use this context for the channel
                     context.type = 'channel';
                 } else { // Set up a new context and tab for this channel
-                    var newContext = new Context('channel');
+                    newContext = new Context('channel');
                     newContext.connectionID = context.connectionID;
                     context = newContext;
                 }
@@ -94,13 +94,16 @@ function parseInput(input, context) {
                     message: parts.slice(2).join(' ')
                 };
 
-                if(context.type == '') { // Use this context for the conversation
+                if(context.type === '') { // Use this context for the conversation
                     context.type = 'pm';
                 } else { // Set up a new context and tab for this conversation
-                    var newContext = new Context('pm');
+                    newContext = new Context('pm');
                     newContext.connectionID = context.connectionID;
                     context = newContext;
                 }
+
+                context.partner = directive.target;
+                // FIXME: We've automatically assumed that the connection succeeded. Bad assumption.
 
                 break;
             case '/me':
@@ -157,4 +160,37 @@ listen(parseInput);
 
 
 /*** SERVER -> CLIENT ***/
+socket.on('message', function(data) {
+    var matchingContexts = contexts.filter(function(context) {
+        return context.connectionID === data.id;
+    });
 
+    if(matchingContexts.length === 0) {
+        throw new Error("no contexts found matching given ID", data.id);
+    }
+
+    var targetContext = null;
+
+    // First see if it's a message to the channel
+    matchingContexts.forEach(function(context) {
+        if(context.type === 'channel' && context.channel === data.target) {
+            targetContext = context;
+        }
+    });
+
+    if(targetContext === null) { // Maybe it's a PM from someone we're talking to?
+        matchingContexts.forEach(function(context) {
+            if(context.type === 'pm' && context.partner === data.from) {
+                targetContext = context;
+            }
+        });
+    }
+
+    if(targetContext === null) { // Still nothing? Must be a PM from new user.
+        targetContext = new Context('pm');
+        targetContext.connectionID = data.id;
+        targetContext.partner = data.from;
+    }
+
+    dataContext.send({type: data.type, message: data.message});
+});
