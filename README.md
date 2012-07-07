@@ -60,6 +60,19 @@ TODO: how do we handle unknown commands?? (e.g., /blah)
         channel: ...,
         nick: ...
     }
+    
+    irc.whois:
+    {
+        id: <id>,
+        nick: ...,
+        info: // http://node-irc.readthedocs.org/en/latest/API.html#%27whois%27
+    }
+    
+    irc.list:
+    {
+        id: <id>,
+        list: [...]
+    }
 
 ### Client
 
