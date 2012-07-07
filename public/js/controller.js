@@ -160,7 +160,7 @@ listen(parseInput);
 
 
 /*** SERVER -> CLIENT ***/
-socket.on('message', function(data) {
+socket.on('irc.message', function(data) {
     var matchingContexts = contexts.filter(function(context) {
         return context.connectionID === data.id;
     });
