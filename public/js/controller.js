@@ -50,11 +50,6 @@ function parseInput(input, context) {
                     return;
                 }
 
-                if(parts[1][0] !== '#') {
-                    sendError(context, "Shouldn't a channel name start with a #?");
-                    return;
-                }
-
                 directive = {
                     channel: parts[1]
                 };
