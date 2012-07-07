@@ -71,8 +71,8 @@
     return null;
   }
 
-  function Context(name, type) {
-    if (!(this instanceof Context)) return new Context(name, type);
+  function Context(type, name) {
+    if (!(this instanceof Context)) return new Context(type, name);
     this.type = type || '';
     this.name = name;
 
@@ -86,7 +86,7 @@
   //   type: 'say'
   // }
   Context.prototype.send = function(msg) {
-
+    alert('Received message ' + msg.type + ': ' + msg.content);
   };
 
 
@@ -104,10 +104,10 @@
   }
 
   onload = function () {
-    Context('login');
-    Context('room');
+    Context('', 'login');
+    Context('', 'room');
     selectTab(1);
-    Context('more');
+    Context('', 'more');
   };
 
 
