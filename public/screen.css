@@ -49,8 +49,17 @@ div#tabs {
 }
 
 button#newtab {
-  padding: 0.5mm 1mm;
+  padding: 0 1mm;
+  margin: 0;
   font-weight: bold;
+  background: transparent;
+  border: 0;
+  color: #aaa;
+  cursor: pointer;
+}
+
+button#newtab:active {
+  background: purple;
 }
 
 div#flux {
@@ -65,3 +74,4 @@ div#flux {
 div.hidden {
   display: none;
 }
+
