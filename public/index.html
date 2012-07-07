@@ -1,0 +1,58 @@
+<!doctype html>
+<meta charset=utf-8>
+<link rel=stylesheet href='./screen.css'>
+<title> Irc Client </title>
+
+<div id=tabs><button id=newtab>+</button></div>
+<div id=flux></div>
+
+<form action='javascript:void 0' id=controls>
+  <input id=msg>
+</form>
+
+<!-- hidden elements (for duplication) -->
+<div class='hidden'>
+  <span id='tab'></span>
+</div>
+
+<script>
+  function addTab(tabName, index) {
+    index = index || 0;
+    var newTab = tab.cloneNode();
+    newTab.removeAttribute('id');
+    newTab.setAttribute('class', 'tab');
+    newTab.textContent = tabName;
+    var children = tabs.childNodes;
+    if (index < children.length) {
+      tabs.insertBefore(newTab, children[index]);
+    } else {
+      throw new Error('Tried inserting a tab at position ' + index +
+                      ', which is bigger than max ' + (children.length - 1));
+    }
+  }
+    
+  function Context() {
+  }
+  
+  // A message is:
+  // {
+  //   type: 'say'
+  // }
+  Context.prototype.send = function(msg) {
+   
+  };
+  
+  function listen(cb) {
+    cb(msg, currentCtx);
+  }
+ 
+  onload = function () {
+    addTab('login');
+    addTab('room', 0);
+  };
+    
+    
+  //API
+  window.addTab = addTab;
+  window.listen = listen;
+</script>
