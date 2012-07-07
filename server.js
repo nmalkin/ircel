@@ -10,8 +10,6 @@ var socket_io      = require('socket.io');
 var app = module.exports = express.createServer();
 var io = socket_io.listen(app);
 
-var clients = {};
-
 // Configuration
 
 app.configure(function(){
@@ -34,7 +32,7 @@ app.configure('production', function () {
 
 // sockets
 io.sockets.on('connection', function (socket) {
-
+  var clients = {};
   //irc.connect:
   //{
       //id: <id>, // a unique identifier for this connection
