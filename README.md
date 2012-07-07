@@ -11,7 +11,7 @@ Protocol
         server: <host>,
         port: <port>,
         nick: <nick>,
-        channel: [<channel>, ...] | []
+        channels: [<channel>, ...] | []
     }
 
     irc.join: 
