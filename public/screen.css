@@ -1,4 +1,6 @@
-ckground: #555;
+html {
+  font-family: sans-serif;
+  background: #555;
   color: #aaa;
 }
 
