@@ -15,7 +15,7 @@ function parseInput(input, context) {
     var parts = input.split(' ');
 
     var command, directive, newContext;
-    if(message[0] === '/') { // If it's a command
+    if(input[0] === '/') { // If it's a command
         switch(parts[0]) {
             case '/connect':
                 command = 'irc.connect';
