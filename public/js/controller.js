@@ -192,5 +192,5 @@ socket.on('irc.message', function(data) {
         targetContext.partner = data.from;
     }
 
-    dataContext.send({type: data.type, content: data.message});
+    targetContext.send({type: data.type, content: data.message});
 });
