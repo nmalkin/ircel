@@ -19,12 +19,18 @@ function parseInput(input, context) {
         switch(parts[0]) {
             case '/connect':
                 command = 'irc.connect';
+
                 if(parts.length < 4) {
                     sendError(context, "Missing arguments to /connect");
                     return;
                 }
 
-                context.connectionID = nextID();
+                if(context.type == '') { // Use this context for the connection
+                    context.connectionID = nextID();
+                } else { // Create a new context for this connection
+                    context = new Context();
+                    context.connectionID = nextID();
+                }
 
                 // TODO: parts[4+] are channels, auto-join those
 
@@ -39,26 +45,28 @@ function parseInput(input, context) {
             case '/join':
                 command = 'irc.join';
 
+                if(parts.length < 2) {
+                    sendError(context, "Missing argument to /join");
+                    return;
+                }
+
                 // Make sure we have a connection
                 if(! ('connectionID' in context)) {
                     sendError("You haven't connected to any server yet. Try /connect-ing to one first.");
-                    return;
-                }
-                
-                if(parts.length < 2) {
-                    sendError(context, "Missing argument to /join");
                     return;
                 }
 
                 directive = {
                     channel: parts[1]
                 };
-            
-                // Set up a new context and tab for this channel
-                var newContext = new Context();
-                newContext.connectionID = context.connectionID;
-                addTab(newContext);
-                context = newContext;
+
+                if(context.type == '') { // Use this context for the channel
+                    context.type = 'channel';
+                } else { // Set up a new context and tab for this channel
+                    var newContext = new Context('channel');
+                    newContext.connectionID = context.connectionID;
+                    context = newContext;
+                }
 
                 // Remember the channel we're joining
                 context.channel = directive.channel;
@@ -66,6 +74,35 @@ function parseInput(input, context) {
 
                 break;
 
+            case '/msg':
+                command = 'irc.message';
+
+                if(parts.length < 3) {
+                    sendError(context, "Missing arguments to /msg");
+                    return;
+                }
+
+                // Make sure we have a connection
+                if(! ('connectionID' in context)) {
+                    sendError("You haven't connected to any server yet. Try /connect-ing to one first.");
+                    return;
+                }
+
+                directive = {
+                    type: 'say',
+                    target: parts[1],
+                    message: parts.slice(2).join(' ')
+                };
+
+                if(context.type == '') { // Use this context for the conversation
+                    context.type = 'pm';
+                } else { // Set up a new context and tab for this conversation
+                    var newContext = new Context('pm');
+                    newContext.connectionID = context.connectionID;
+                    context = newContext;
+                }
+
+                break;
             case '/me':
                 // Make sure we're connected to a channel
                 if(! ('channel' in context)) {
@@ -76,7 +113,7 @@ function parseInput(input, context) {
                 directive = {
                     type: 'action',
                     target: context.channel,
-                    message: input
+                    message: parts.slice(1).join(' ')
                 };
 
                 break;
@@ -94,7 +131,7 @@ function parseInput(input, context) {
                 // TODO: send it to the server anyway?
                 return;
         }
-    } else { // treat it as a message
+    } else { // Treat it as a message to the channel
         command = 'irc.message';
 
         // Make sure we're connected to a channel
@@ -106,7 +143,7 @@ function parseInput(input, context) {
         directive = {
             type: 'say',
             target: context.channel,
-            message: parts.slice(1).join(' ')
+            message: input
         };
     }
 
