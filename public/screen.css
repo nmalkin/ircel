@@ -1,6 +1,4 @@
-html {
-  font-family: sans-serif;
-  background: #555;
+ckground: #555;
   color: #aaa;
 }
 
@@ -46,6 +44,12 @@ div#tabs {
   padding: 0.5mm 1mm;
   border-right: 1px solid #aaa;
   font-weight: bold;
+  cursor: default;
+}
+
+.tab.selected {
+  background: #555;
+  box-shadow: inset 0px 0px 7px #888;
 }
 
 button#newtab {
@@ -74,4 +78,3 @@ div#flux {
 div.hidden {
   display: none;
 }
-
