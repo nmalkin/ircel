@@ -13,12 +13,12 @@
     <!-- <link rel="stylesheet" href="css/bootstrap-responsive.css"> -->
 
     <!-- x-tags: https://github.com/csuwldcat/x-tag -->
-    <script src="js/lib/x-tag.js></script>
+    <script src="js/lib/x-tag.js"></script>
 
     <!-- For x-tags, you need to include each component's style and js
          here, for example for the accordion: -->
     <link rel="stylesheet" href="css/lib/x-tag/accordion.css" />
-    <script src="js/lib/x-tag/accordion.js></script>
+    <script src="js/lib/x-tag/accordion.js"></script>
 
     <!-- If you intend to use volo's build command, do not add any
          other CSS here and @import it in app.css. It will be inlined
@@ -26,18 +26,13 @@
     <link rel="stylesheet" href="css/app.css">
 
     <script src="js/lib/modernizr-2.5.3.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/app.js"></script>
   </head>
   <body>
 
     <%- body %>
 
-    <!-- Using require.js, a module system for javascript, include the
-         js files. This loads "main.js", which in turn can load other
-         files, all handled by require.js:
-         http://requirejs.org/docs/api.html#jsfiles -->
-    <script type="text/javascript"
-            data-main="js/app.js"
-            src="js/lib/require.js"></script>
 
     <!--
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
