@@ -5,23 +5,22 @@ Protocol
 --------
 ### Client -> Server
 
-    connect: 
+    irc.connect: 
     {
+        id: <id>, // a unique identifier for this connection
         server: <host>,
         port: <port>,
         nick: <nick>,
         channel: [<channel>, ...] | []
-    }, function(id) {
-        this.connectionID = id;
     }
 
-    join: 
+    irc.join: 
     {
         id: <id>,
         channel: <channel>
     }
 
-    message: 
+    irc.message: 
     {
         id: <id>,
         type: "say" | "ctcp" | "action" | "notice"
@@ -29,13 +28,13 @@ Protocol
         message: <message>
     }
 
-    whois: 
+    irc.whois: 
     {
         id: <id>,
         nick: <nick>
     }
 
-    list: // lists rooms
+    irc.list: // lists rooms
     {
         id: <id>,
         args: [<arg>, ...] | []
@@ -45,7 +44,7 @@ TODO: how do we handle unknown commands?? (e.g., /blah)
 
 ### Server -> Client
 
-    message:
+    irc.message:
     {
         id: <id>, // connnection
         type: "message" | "notice" | "privmsg"
@@ -54,7 +53,7 @@ TODO: how do we handle unknown commands?? (e.g., /blah)
         message: ...
     }
 
-    event:
+    irc.event:
     {
         id: <id>,
         type: "join" | "part"
@@ -62,3 +61,13 @@ TODO: how do we handle unknown commands?? (e.g., /blah)
         nick: ...
     }
 
+### Client
+
+#### Controller
+
+- communicates with the server (using API defined above)
+- calls UI function `listen` with callback that will be invoked on user input
+    - `listen(message, currentContext)`
+- calls `Context.send` with `message` when it wants something displayed
+- creates `new Context` and calls `addTab` with it when necessary  
+    (e.g., when joining new channels)
