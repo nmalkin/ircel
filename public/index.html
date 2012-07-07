@@ -3,7 +3,7 @@
 <link rel=stylesheet href='./screen.css'>
 <title> Irc Client </title>
 
-<div id=tabs><button id=newtab onclick='Context("new tab")'>+</button></div>
+<div id=tabs><button id=newtab onclick='Context()'>+</button></div>
 <div id=flux></div>
 
 <form action='javascript:triggerListen()' id=controls>
@@ -13,20 +13,21 @@
 <!-- hidden elements (for duplication) -->
 <div class='hidden'>
   <span id='tab'></span>
-  <div id=content>
-  </div>
+  <pre id=content>
+  </pre>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
   // Contents.
 
-  var contents = [];
-
-  function addContent() {
+  function addContent(index) {
+    return content.cloneNode();
   }
 
   function switchToContent(index) {
+    flux.innerHTML = '';
+    flux.appendChild(getCtx(index).content);
   }
 
 
@@ -79,13 +80,18 @@
     contexts.push(this);
     this.index = addTab(name, contexts.length - 1);
     selectTab(this.index);
+
+    // Content creation.
+    this.content = addContent(index);
   }
 
   // A message is:
   // {
-  //   type: 'say'
+  //   type: 'say',
+  //   content: 'something…',
   // }
   Context.prototype.send = function(msg) {
+    this.content.textContent += msg.content + '\n';
     alert('Received message ' + msg.type + ': ' + msg.content);
   };
 
