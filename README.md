@@ -90,7 +90,7 @@ TODO: how do we handle unknown commands?? (e.g., /blah)
 - calls `Context.send` with `message` when it wants something displayed
     - `send({
         type: "message" | "action" | "whois" | "names" | ...,
-        contents: String | Array | Object
+        content: String | Array | Object
     })`
 - creates `new Context` and calls `addTab` with it when necessary  
     (e.g., when joining new channels)

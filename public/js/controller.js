@@ -8,7 +8,7 @@ function nextID() {
 }
 
 function sendError(context, message) {
-    context.send({ "type": "error", "message": message});
+    context.send({ "type": "error", "content": message});
 }
 
 function parseInput(input, context) {
@@ -192,5 +192,5 @@ socket.on('message', function(data) {
         targetContext.partner = data.from;
     }
 
-    dataContext.send({type: data.type, message: data.message});
+    dataContext.send({type: data.type, content: data.message});
 });
