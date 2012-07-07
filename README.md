@@ -67,7 +67,7 @@ TODO: how do we handle unknown commands?? (e.g., /blah)
 
 - communicates with the server (using API defined above)
 - calls UI function `listen` with callback that will be invoked on user input
-    - `listen(message, currentContext)`
+    - `callback(message, currentContext)`
 - calls `Context.send` with `message` when it wants something displayed
 - creates `new Context` and calls `addTab` with it when necessary  
     (e.g., when joining new channels)
