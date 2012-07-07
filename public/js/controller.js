@@ -1,3 +1,4 @@
+/*global io: false, Context: false, contexts: false, listen: false */
 var socket = io.connect('http://localhost');
 
 /*** CLIENT -> SERVER ***/

@@ -1,0 +1,11 @@
+{
+    "node" : true,
+    "browser" : true,
+
+    "devel": true,
+    "strict": false,
+    "eqeqeq": true,
+    "forin": true,
+    "latedef": true,
+    "undef": true
+}
