@@ -74,6 +74,12 @@ TODO: how do we handle unknown commands?? (e.g., /blah)
         list: [...]
     }
 
+    irc.error:
+    {
+        id: <id>,
+        message: <message>
+    }
+
 ### Client
 
 #### Controller
