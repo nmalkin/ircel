@@ -2,7 +2,7 @@
 // Contents.
 
 function addContent(index) {
-  var c = content.cloneNode();
+  var c = document.getElementById('content').cloneNode();
   c.removeAttribute('id');
   return c;
 }
