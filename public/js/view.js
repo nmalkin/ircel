@@ -105,5 +105,6 @@ window.selectTab = selectTab;
 window.listen = listen;
 window.Context = Context;
 window.triggerListen = triggerListen;
+window.contexts = contexts;
 
 }());
