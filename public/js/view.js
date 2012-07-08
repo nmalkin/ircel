@@ -75,7 +75,6 @@ function Context(type, name) {
 // }
 Context.prototype.send = function(msg) {
   this.content.textContent += msg.content + '\n';
-  alert('Received message ' + msg.type + ': ' + msg.content);
 };
 
 
@@ -105,5 +104,6 @@ window.addTab = addTab;
 window.selectTab = selectTab;
 window.listen = listen;
 window.Context = Context;
+window.triggerListen = triggerListen;
 
 }());
