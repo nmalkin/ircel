@@ -85,6 +85,7 @@ function triggerListen() {
   for (var i = 0; i < listeners.length; i++) {
     listeners[i](msg.value, currentCtx);
   }
+  msg.value = '';
 }
 
 function listen(cb) {
