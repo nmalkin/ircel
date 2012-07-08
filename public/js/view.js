@@ -57,7 +57,7 @@ function getCtx(index) {
 function Context(type, name) {
   if (!(this instanceof Context)) return new Context(type, name);
   this.type = type || '';
-  this.name = name;
+  this.name = name || 'New channel';
 
   contexts.push(this);
   this.index = addTab(name, contexts.length - 1);
