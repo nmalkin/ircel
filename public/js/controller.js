@@ -193,5 +193,6 @@ socket.on('irc.message', function(data) {
         targetContext.partner = data.from;
     }
 
-    targetContext.send({type: data.type, content: { from: data.from, message: data.message});
+    console.log(data);
+    targetContext.send({type: data.type, content: { from: data.from, message: data.message } });
 });
