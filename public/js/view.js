@@ -2,7 +2,9 @@
 // Contents.
 
 function addContent(index) {
-  return content.cloneNode();
+  var c = content.cloneNode();
+  c.removeAttribute('id');
+  return c;
 }
 
 function switchToContent(index) {
@@ -59,10 +61,11 @@ function Context(type, name) {
 
   contexts.push(this);
   this.index = addTab(name, contexts.length - 1);
-  selectTab(this.index);
 
   // Content creation.
-  this.content = addContent(index);
+  this.content = addContent(this.index);
+
+  selectTab(this.index);
 }
 
 // A message is:
