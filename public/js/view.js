@@ -74,7 +74,7 @@ function Context(type, name) {
 //   content: 'something…',
 // }
 Context.prototype.send = function(msg) {
-  this.content.textContent += msg.content + '\n';
+  this.content.textContent += msg.from + ': ' + msg.content + '\n';
 };
 
 
